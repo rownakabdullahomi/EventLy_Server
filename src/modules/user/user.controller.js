@@ -1,3 +1,4 @@
+import { getToken } from "../../services/getJwtToken.js";
 import { User } from "./user.model.js";
 
 const createUser = async (req, res) => {
@@ -23,6 +24,33 @@ const createUser = async (req, res) => {
     }
 }
 
+const loginUser = async (req, res) => {
+    try {
+        const {email, password} = req.body;
+        const token = await getToken(email, password);
+        // console.log(token);
+        res.status(201).json({
+            success: true,
+            message: "Token get successfully",
+            data: token,
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: "Filed to login user",
+            error: {
+                name: error.name,
+                message: error.message,
+                errors: error.errors,
+            },
+        });
+    }
+}
+
+
+
 export const userController = {
-    createUser
+    createUser,
+    loginUser
 }
