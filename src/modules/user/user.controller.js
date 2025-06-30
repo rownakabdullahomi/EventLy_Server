@@ -56,7 +56,7 @@ const loginUser = async (req, res) => {
 
 const getLoggedUser =  async (req, res) => {
   const userId = req.user.id; // this comes from decoded JWT
-  const user = await User.findById(userId).select("-password"); // exclude sensitive info
+  const user = await User.findById(userId).select("-password"); // exclude password
   if (!user) return res.status(404).send("User not found");
   res.json(user);
 };

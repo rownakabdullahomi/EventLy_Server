@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import config from "./src/config/index.js";
-import { connectDB } from "./src/db/db.js";
-import routes from "./src/routes/routers.js";
+import config from "./config/index.js";
+import { connectDB } from "./db/db.js";
+import routes from "./routes/routers.js";
 
 const app = express();
 app.use(cors());
@@ -19,3 +19,7 @@ app.listen(config.port, ()=>{
 app.get("/", (req, res)=>{
     res.send({success: true, message: "⚡ Welcome to EventLy server.."});
 })
+
+
+// vercel live link
+// https://vercel.com/rownaks-projects/evently-server
