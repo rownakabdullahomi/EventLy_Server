@@ -4,10 +4,11 @@ import { eventController } from "./event.controller.js";
 
 const eventRoutes = Router();
 
-eventRoutes.post("/", verifyToken, eventController.createEvent);
+eventRoutes.post("/", eventController.createEvent);
 eventRoutes.post("/:id", verifyToken, eventController.joinEvent);
-eventRoutes.get("/", verifyToken, eventController.allEvents);
+eventRoutes.get("/", eventController.allEvents);
 eventRoutes.get("/:id", eventController.getEventsByUserId);
+eventRoutes.patch("/:id", eventController.updateEventById);
 eventRoutes.delete("/:id", eventController.deleteEvent);
 
 

@@ -135,8 +135,41 @@ const getEventsByUserId = async (req, res) => {
     }
 };
 
+const updateEventById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const body = req.body;
+    const event = await Event.findByIdAndUpdate(id, body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!event) {
+      res.status(404).json({
+        success: false,
+        message: "Event not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Event updated successfully by id",
+      data: event,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Event update failed",
+      error: {
+        name: error.name,
+        message: error.message,
+        errors: error.errors,
+      },
+    });
+  }
+};
+
 const deleteEvent = async(req, res) => {
-    
     try {
     const id = req.params.id;
     const event = await Event.findByIdAndDelete(id);
@@ -151,12 +184,12 @@ const deleteEvent = async(req, res) => {
     res.status(200).json({
       success: true,
       message: "Event deleted successfully by id",
-      data: book,
+      data: event,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Book can not be deleted",
+      message: "Event can not be deleted",
       error: {
         name: error.name,
         errors: error.errors,
@@ -172,6 +205,7 @@ export const eventController = {
     allEvents,
     joinEvent,
     getEventsByUserId,
+    updateEventById,
     deleteEvent
 
 
