@@ -8,6 +8,7 @@ eventRoutes.post("/", verifyToken, eventController.createEvent);
 eventRoutes.post("/:id", verifyToken, eventController.joinEvent);
 eventRoutes.get("/", verifyToken, eventController.allEvents);
 eventRoutes.get("/:id", eventController.getEventsByUserId);
+eventRoutes.delete("/:id", eventController.deleteEvent);
 
 
 export default eventRoutes;

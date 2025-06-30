@@ -76,7 +76,7 @@ const allEvents = async (req, res) => {
 const joinEvent = async (req, res) => {
     try {
         const eventId = req.params.id;
-        const {userId} = req.body; 
+        const { userId } = req.body;
         console.log(userId);
         const event = await Event.findById(eventId);
 
@@ -105,35 +105,65 @@ const joinEvent = async (req, res) => {
 };
 
 const getEventsByUserId = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const query = {postedBy : new ObjectId(userId)}
-    const events = await Event.find(query);
+    try {
+        const userId = req.params.id;
+        const query = { postedBy: new ObjectId(userId) }
+        const events = await Event.find(query);
 
-     if (!events || events.length === 0) {
-      return res.status(404).json({
+        if (!events || events.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No events found for this user.",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Event retrieved successfully by id",
+            data: events,
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Event can not be retrieved",
+            error: {
+                name: error.name,
+                errors: error.errors,
+            },
+        });
+    }
+};
+
+const deleteEvent = async(req, res) => {
+    
+    try {
+    const id = req.params.id;
+    const event = await Event.findByIdAndDelete(id);
+
+    if (!event) {
+      res.status(404).json({
         success: false,
-        message: "No events found for this user.",
+        message: "Event not found",
       });
     }
 
     res.status(200).json({
-        success: true,
-        message: "Event retrieved successfully by id",
-        data: events,
-      });
-
+      success: true,
+      message: "Event deleted successfully by id",
+      data: book,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Event can not be retrieved",
+      message: "Book can not be deleted",
       error: {
         name: error.name,
         errors: error.errors,
       },
     });
   }
-};
+}
 
 
 
@@ -141,7 +171,8 @@ export const eventController = {
     createEvent,
     allEvents,
     joinEvent,
-    getEventsByUserId
+    getEventsByUserId,
+    deleteEvent
 
 
 }
