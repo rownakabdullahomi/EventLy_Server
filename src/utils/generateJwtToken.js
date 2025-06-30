@@ -6,7 +6,7 @@ function generateToken(user) {
         id: user._id,
         email: user.email
     }
-    return jwt.sign(payload, secretKey, { expiresIn: "1h" })
+    return jwt.sign(payload, secretKey, { expiresIn: "7d" })
 }
 
 export default generateToken;

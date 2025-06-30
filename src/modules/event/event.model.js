@@ -37,6 +37,12 @@ const eventSchema = new Schema(
             default: 0,
             min: [0, 'Minimum value is 0'],
         },
+        joinedUsers: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
     },
     {
         versionKey: false,
