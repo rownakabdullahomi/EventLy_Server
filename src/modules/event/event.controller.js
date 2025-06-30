@@ -135,6 +135,35 @@ const getEventsByUserId = async (req, res) => {
     }
 };
 
+const getEventById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const event = await Event.findById(id);
+
+    if (!event) {
+      res.status(404).json({
+        success: false,
+        message: "Event not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Event fetched successfully by id",
+      data: event,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Event fetching failed",
+      error: {
+        name: error.name,
+        message: error.message,
+        errors: error.errors,
+      },
+    });
+  }
+};
 const updateEventById = async (req, res) => {
   try {
     const id = req.params.id;
@@ -205,6 +234,7 @@ export const eventController = {
     allEvents,
     joinEvent,
     getEventsByUserId,
+    getEventById,
     updateEventById,
     deleteEvent
 
