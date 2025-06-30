@@ -3,12 +3,16 @@ import { User } from "./user.model.js";
 
 const createUser = async (req, res) => {
     try {
+        const { email, password } = req.body;
         const user = await User.create(req.body);
+
+        const token = await getToken(email, password);
 
         res.status(201).json({
             success: true,
             message: "User registered successfully",
             data: user,
+            token,
         });
 
     } catch (error) {
@@ -26,13 +30,15 @@ const createUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
         const token = await getToken(email, password);
+        const user = await User.findOne({ email }).select("-password");
         // console.log(token);
         res.status(201).json({
             success: true,
             message: "Token get successfully",
-            data: token,
+            data: user,
+            token,
         });
 
     } catch (error) {
@@ -48,9 +54,17 @@ const loginUser = async (req, res) => {
     }
 }
 
+const getLoggedUser =  async (req, res) => {
+  const userId = req.user.id; // this comes from decoded JWT
+  const user = await User.findById(userId).select("-password"); // exclude sensitive info
+  if (!user) return res.status(404).send("User not found");
+  res.json(user);
+};
+
 
 
 export const userController = {
     createUser,
-    loginUser
+    loginUser,
+    getLoggedUser
 }
