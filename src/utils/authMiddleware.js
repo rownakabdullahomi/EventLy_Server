@@ -16,13 +16,23 @@ export const verifyToken = (req, res, next) => {
         });
     }
 
-    try {
-        const decoded = jwt.verify(token, secretKey);
-        req.user = decoded; // attach user data to request
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({
+                success: false, message: "Forbidden: Invalid token!"
+            });
+        }
+        req.decoded = decoded; // attach user data to request
         next();
-    } catch (error) {
-        return res.status(403).json({
-            success: false, message: "Forbidden: Invalid token!"
-        });
-    }
+    })
+
+    // try {
+    //     const decoded = jwt.verify(token, secretKey);
+    //     req.user = decoded; // attach user data to request
+    //     next();
+    // } catch (error) {
+    //     return res.status(403).json({
+    //         success: false, message: "Forbidden: Invalid token!"
+    //     });
+    // }
 } 

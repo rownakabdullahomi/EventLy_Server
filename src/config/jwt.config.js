@@ -1,5 +1,7 @@
-import crypto from "crypto";
+import config from "./index.js";
 
-// Generate a random secret key
-export const secretKey = crypto.randomBytes(32).toString("hex");
+// Get the secret key
+export const secretKey = config.jwt_secretKey;
+
+// console.log(secretKey);
 
