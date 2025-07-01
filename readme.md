@@ -246,7 +246,7 @@ Thanks to all open-source tools and libraries used in this project — especiall
 
 ## 📧 Contact
 
-**Rownak Abdullah Omi**
+**Rownak Abdullah**
 📩 [rownakabdullahomi@gmail.com](mailto:rownakabdullahomi@gmail.com)
 
 ---
